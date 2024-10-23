@@ -26,7 +26,7 @@ function App() {
   const [nodes, setNodes, onNodeChange] = useNodesState<Node>([]);
 
   function addTwoNodes() {
-    pos += 50;
+    pos += 100;
     setNodes((nodes) => {
       return [
         ...nodes,
@@ -38,7 +38,7 @@ function App() {
         },
         {
           id: String(Math.random()),
-          position: { x: 100, y: (pos += 50) },
+          position: { x: 100, y: (pos += 100) },
           data: { label: "" },
           type: "editableNode",
         },
@@ -47,7 +47,7 @@ function App() {
   }
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <ReactFlow nodes={nodes} nodeTypes={nodeTypes}>
+      <ReactFlow nodes={nodes} nodeTypes={nodeTypes} style={{}}>
         <Background color="#f1d2de" variant={BackgroundVariant.Cross} />
         <Controls showZoom={false}>
           <ControlButton onClick={addTwoNodes}>1</ControlButton>

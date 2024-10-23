@@ -68,7 +68,33 @@ function App() {
     });
   }
 
-  function addTtreeNodes() {}
+  function addTtreeNodes() {
+    posY += 100;
+    posX += 80;
+    setNodes((nodes) => {
+      return [
+        ...nodes,
+        {
+          id: String(Math.random()),
+          position: { x: posX, y: posY },
+          data: { label: "" },
+          type: "editableNode",
+        },
+        {
+          id: String(Math.random()),
+          position: { x: (posX += 80), y: (posY += 100) },
+          data: { label: "" },
+          type: "editableNode",
+        },
+        {
+          id: String(Math.random()),
+          position: { x: (posX += 80), y: (posY += 100) },
+          data: { label: "" },
+          type: "editableNode",
+        },
+      ];
+    });
+  }
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow
@@ -83,7 +109,7 @@ function App() {
         <Background color="#f1d2de" variant={BackgroundVariant.Cross} />
         <Controls showZoom={false}>
           <ControlButton onClick={addTwoNodes}>1</ControlButton>
-          <ControlButton>2</ControlButton>
+          <ControlButton onClick={addTtreeNodes}>2</ControlButton>
           <ControlButton>3</ControlButton>
         </Controls>
       </ReactFlow>

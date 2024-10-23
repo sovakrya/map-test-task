@@ -12,6 +12,7 @@ import {
 import { useCallback, useState } from "react";
 
 import "@xyflow/react/dist/style.css";
+import CustomNodeWithHandles from "./components/CustomNodeWithHandles";
 import CustomNode from "./components/CustomNode";
 
 type Node = {
@@ -21,7 +22,10 @@ type Node = {
   type: string;
 };
 
-const nodeTypes = { editableNode: CustomNode };
+const nodeTypes = {
+  editableNodeWithHandles: CustomNodeWithHandles,
+  editableNode: CustomNode,
+};
 let posY = 0;
 let posX = 0;
 function App() {
@@ -52,17 +56,19 @@ function App() {
           id: String(Math.random()),
           position: { x: posX, y: posY },
           data: { label: "" },
-          type: "editableNode",
+          type: "editableNodeWithHandles",
         },
         {
           id: String(Math.random()),
           position: { x: (posX += 80), y: (posY += 100) },
           data: { label: "" },
-          type: "editableNode",
+          type: "editableNodeWithHandles",
         },
       ];
     });
   }
+
+  function addTtreeNodes() {}
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow

@@ -5,10 +5,11 @@ import {
   ControlButton,
   Controls,
   addEdge,
-  useEdgesState,
-  useNodesState,
+  type Edge,
+  applyNodeChanges,
+  applyEdgeChanges,
 } from "@xyflow/react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import "@xyflow/react/dist/style.css";
 import CustomNode from "./components/CustomNode";
@@ -21,24 +22,41 @@ type Node = {
 };
 
 const nodeTypes = { editableNode: CustomNode };
-let pos = 0;
+let posY = 0;
+let posX = 0;
 function App() {
-  const [nodes, setNodes, onNodeChange] = useNodesState<Node>([]);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [edges, setEdges] = useState<Edge[]>([]);
+
+  const onNodeChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((edgs) => applyEdgeChanges(changes, edgs)),
+    [setEdges]
+  );
+
+  const onConnect = useCallback(
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    [setEdges]
+  );
 
   function addTwoNodes() {
-    pos += 100;
+    posY += 100;
+    posX += 80;
     setNodes((nodes) => {
       return [
         ...nodes,
         {
           id: String(Math.random()),
-          position: { x: 100, y: pos },
+          position: { x: posX, y: posY },
           data: { label: "" },
           type: "editableNode",
         },
         {
           id: String(Math.random()),
-          position: { x: 100, y: (pos += 100) },
+          position: { x: (posX += 80), y: (posY += 100) },
           data: { label: "" },
           type: "editableNode",
         },
@@ -47,7 +65,15 @@ function App() {
   }
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <ReactFlow nodes={nodes} nodeTypes={nodeTypes} style={{}}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodeChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        style={{ backgroundColor: "#f8f0f0" }}
+      >
         <Background color="#f1d2de" variant={BackgroundVariant.Cross} />
         <Controls showZoom={false}>
           <ControlButton onClick={addTwoNodes}>1</ControlButton>

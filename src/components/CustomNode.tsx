@@ -29,7 +29,7 @@ export default function CustomNode() {
 
   return (
     <NodeBox >
-      <Handle type="target" position={Position.Left} />
+      <Handle type="target" position={Position.Left} style={{width: 12, height: 12, backgroundColor: "#6d5b5b"}} />
       {!isEdit ? (
         <label onClick={() => setIsEdit(true)}>{inputText}</label>
       ) : (
@@ -44,7 +44,7 @@ export default function CustomNode() {
         </NodeInputBox>
       )}
 
-      <Handle type="source" position={Position.Right} />
+      <Handle type="source" position={Position.Bottom} style={{width: 12, height: 12, backgroundColor: "#6d5b5b"}}/>
     </NodeBox>
   );
 }

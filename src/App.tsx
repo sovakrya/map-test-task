@@ -6,6 +6,7 @@ import {
   Controls,
   addEdge,
   type Edge,
+  type Node,
   applyNodeChanges,
   applyEdgeChanges,
 } from "@xyflow/react";
@@ -14,13 +15,16 @@ import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import CustomNodeWithHandles from "./components/CustomNodeWithHandles";
 import CustomNode from "./components/CustomNode";
+import styled from "styled-components";
 
-type Node = {
-  id: string;
-  position: { x: number; y: number };
-  data: { label: string };
-  type: string;
-};
+const Mainbox = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+`;
+const BtnSendRequest = styled.button`
+  align-self: flex-end;
+`;
 
 const nodeTypes = {
   editableNodeWithHandles: CustomNodeWithHandles,
@@ -96,7 +100,7 @@ function App() {
     });
   }
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <Mainbox>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -104,16 +108,21 @@ function App() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        style={{ backgroundColor: "#f8f0f0" }}
+        style={{ backgroundColor: "#f8f0f0" , display: "flex"}}
       >
         <Background color="#f1d2de" variant={BackgroundVariant.Cross} />
         <Controls showZoom={false}>
           <ControlButton onClick={addTwoNodes}>1</ControlButton>
           <ControlButton onClick={addTtreeNodes}>2</ControlButton>
-          <ControlButton>3</ControlButton>
+          <ControlButton onClick={addTtreeNodes}>3</ControlButton>
         </Controls>
+
+        <div style={{display: "flex", justifyContent: "flex-end", width: "100%", paddingBottom: 16, paddingRight: 16}}>
+
+        <BtnSendRequest>Отправить запрос</BtnSendRequest>
+        </div>
       </ReactFlow>
-    </div>
+    </Mainbox>
   );
 }
 

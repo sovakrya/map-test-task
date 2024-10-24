@@ -13,11 +13,10 @@ import {
 import { useCallback, useState } from "react";
 
 import "@xyflow/react/dist/style.css";
-import CustomNodeWithHandles from "./components/CustomNodeWithHandles";
 import CustomNode from "./components/CustomNode";
 import styled from "styled-components";
 
-const Mainbox = styled.div`
+const MainBox = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -27,7 +26,6 @@ const BtnSendRequest = styled.button`
 `;
 
 const nodeTypes = {
-  editableNodeWithHandles: CustomNodeWithHandles,
   editableNode: CustomNode,
 };
 let posY = 0;
@@ -50,7 +48,7 @@ function App() {
     [setEdges]
   );
 
-  function addTwoNodes() {
+  function addCustomNode() {
     posY += 100;
     posX += 80;
     setNodes((nodes) => {
@@ -60,47 +58,48 @@ function App() {
           id: String(Math.random()),
           position: { x: posX, y: posY },
           data: { label: "" },
-          type: "editableNodeWithHandles",
+          type: "editableNode",
         },
+      ];
+    });
+  }
+
+  function addDefaultNode() {
+    posY += 100;
+    posX += 80;
+
+    setNodes((nodes) => {
+      return [
+        ...nodes,
         {
           id: String(Math.random()),
-          position: { x: (posX += 80), y: (posY += 100) },
-          data: { label: "" },
-          type: "editableNodeWithHandles",
+          position: { x: posX, y: posY },
+          data: { label: "Initial text" },
+          type: "default",
         },
       ];
     });
   }
 
-  function addTtreeNodes() {
+  function addInputNode() {
     posY += 100;
     posX += 80;
+
     setNodes((nodes) => {
       return [
         ...nodes,
         {
           id: String(Math.random()),
           position: { x: posX, y: posY },
-          data: { label: "" },
-          type: "editableNode",
-        },
-        {
-          id: String(Math.random()),
-          position: { x: (posX += 80), y: (posY += 100) },
-          data: { label: "" },
-          type: "editableNode",
-        },
-        {
-          id: String(Math.random()),
-          position: { x: (posX += 80), y: (posY += 100) },
-          data: { label: "" },
-          type: "editableNode",
+          data: { label: "Initial text" },
+          type: "input",
         },
       ];
     });
   }
+
   return (
-    <Mainbox>
+    <MainBox>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -108,21 +107,28 @@ function App() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        style={{ backgroundColor: "#f8f0f0" , display: "flex"}}
+        style={{ backgroundColor: "#f8f0f0", display: "flex" }}
       >
         <Background color="#f1d2de" variant={BackgroundVariant.Cross} />
         <Controls showZoom={false}>
-          <ControlButton onClick={addTwoNodes}>1</ControlButton>
-          <ControlButton onClick={addTtreeNodes}>2</ControlButton>
-          <ControlButton onClick={addTtreeNodes}>3</ControlButton>
+          <ControlButton onClick={addCustomNode}>1</ControlButton>
+          <ControlButton onClick={addDefaultNode}>2</ControlButton>
+          <ControlButton onClick={addInputNode}>3</ControlButton>
         </Controls>
 
-        <div style={{display: "flex", justifyContent: "flex-end", width: "100%", paddingBottom: 16, paddingRight: 16}}>
-
-        <BtnSendRequest>Отправить запрос</BtnSendRequest>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "100%",
+            paddingBottom: 16,
+            paddingRight: 16,
+          }}
+        >
+          <BtnSendRequest>Отправить запрос</BtnSendRequest>
         </div>
       </ReactFlow>
-    </Mainbox>
+    </MainBox>
   );
 }
 

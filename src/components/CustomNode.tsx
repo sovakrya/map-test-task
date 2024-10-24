@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Handle, Position } from "@xyflow/react";
 import styled from "styled-components";
 
 const NodeBox = styled.div`
@@ -25,8 +26,13 @@ export default function CustomNode() {
 
   return (
     <NodeBox>
+      <Handle
+        type="target"
+        position={Position.Left}
+        style={{ width: 12, height: 12, backgroundColor: "#6d5b5b" }}
+      />
       {!isEdit ? (
-        <label onClick={() => setIsEdit(true)}>{inputText}</label>
+        <span onClick={() => setIsEdit(true)}>{inputText}</span>
       ) : (
         <NodeInputBox>
           <input
@@ -38,6 +44,12 @@ export default function CustomNode() {
           <button onClick={() => setIsEdit(false)}>ok</button>
         </NodeInputBox>
       )}
+
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        style={{ width: 12, height: 12, backgroundColor: "#6d5b5b" }}
+      />
     </NodeBox>
   );
 }

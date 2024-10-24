@@ -17,6 +17,7 @@ import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import styled from "styled-components";
 import CustomNode from "./components/CustomNode";
+import { sendConnectedEdges } from "./api/nodeApi";
 
 const MainBox = styled.div`
   display: flex;
@@ -130,13 +131,11 @@ function App() {
           <ControlButton onClick={addDefaultNode}>2</ControlButton>
           <ControlButton onClick={addInputNode}>3</ControlButton>
         </Controls>
-        <Panel>
+        <Panel position="top-right">
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              paddingTop: 16,
-              paddingLeft: 16,
               gap: 6,
             }}
           >
@@ -149,17 +148,12 @@ function App() {
             <button onClick={changeNodeName}>ok</button>
           </div>
         </Panel>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            paddingBottom: 16,
-            paddingRight: 16,
-          }}
-        >
-          <BtnSendRequest>Отправить запрос</BtnSendRequest>
-        </div>
+
+        <Panel position="bottom-right">
+          <BtnSendRequest onClick={() => sendConnectedEdges(nodes, edges)}>
+            Отправить запрос
+          </BtnSendRequest>
+        </Panel>
       </ReactFlow>
     </MainBox>
   );

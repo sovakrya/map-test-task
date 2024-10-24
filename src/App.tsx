@@ -1,20 +1,22 @@
 import {
-  ReactFlow,
   Background,
   BackgroundVariant,
+  Connection,
   ControlButton,
   Controls,
+  Panel,
+  ReactFlow,
   addEdge,
+  useEdgesState,
+  useNodesState,
   type Edge,
   type Node,
-  applyNodeChanges,
-  applyEdgeChanges,
 } from "@xyflow/react";
 import { useCallback, useState } from "react";
 
 import "@xyflow/react/dist/style.css";
-import CustomNode from "./components/CustomNode";
 import styled from "styled-components";
+import CustomNode from "./components/CustomNode";
 
 const MainBox = styled.div`
   display: flex;
@@ -31,20 +33,12 @@ const nodeTypes = {
 let posY = 0;
 let posX = 0;
 function App() {
-  const [nodes, setNodes] = useState<Node[]>([]);
-  const [edges, setEdges] = useState<Edge[]>([]);
-
-  const onNodeChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
-  );
-  const onEdgesChange = useCallback(
-    (changes) => setEdges((edgs) => applyEdgeChanges(changes, edgs)),
-    [setEdges]
-  );
+  const [nodes, setNodes, onNodeChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [nodeName, setNodeName] = useState("Initial text");
 
   const onConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
 
@@ -74,7 +68,7 @@ function App() {
         {
           id: String(Math.random()),
           position: { x: posX, y: posY },
-          data: { label: "Initial text" },
+          data: { label: nodeName },
           type: "default",
         },
       ];
@@ -91,11 +85,32 @@ function App() {
         {
           id: String(Math.random()),
           position: { x: posX, y: posY },
-          data: { label: "Initial text" },
+          data: { label: nodeName },
           type: "input",
         },
       ];
     });
+  }
+
+  function changeNodeName() {
+    setNodes((nds) => {
+      const newNodes = nds.map((node) => {
+        if (node.selected) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              label: nodeName,
+            },
+          };
+        }
+        return node;
+      });
+
+      return newNodes;
+    });
+
+    setNodeName("");
   }
 
   return (
@@ -115,7 +130,25 @@ function App() {
           <ControlButton onClick={addDefaultNode}>2</ControlButton>
           <ControlButton onClick={addInputNode}>3</ControlButton>
         </Controls>
-
+        <Panel>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              paddingTop: 16,
+              paddingLeft: 16,
+              gap: 6,
+            }}
+          >
+            <span>label:</span>
+            <input
+              type="text"
+              onChange={(e) => setNodeName(e.target.value)}
+              value={nodeName}
+            />
+            <button onClick={changeNodeName}>ok</button>
+          </div>
+        </Panel>
         <div
           style={{
             display: "flex",

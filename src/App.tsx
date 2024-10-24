@@ -16,7 +16,7 @@ import { useCallback, useState } from "react";
 
 import "@xyflow/react/dist/style.css";
 import styled from "styled-components";
-import CustomNode from "./components/CustomNode";
+import CustomNode from "./components/Process";
 import { sendConnectedEdges } from "./api/nodeApi";
 
 const MainBox = styled.div`
@@ -36,7 +36,6 @@ let posX = 0;
 function App() {
   const [nodes, setNodes, onNodeChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
-  const [nodeName, setNodeName] = useState("Initial text");
 
   const onConnect = useCallback(
     (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
@@ -69,7 +68,7 @@ function App() {
         {
           id: String(Math.random()),
           position: { x: posX, y: posY },
-          data: { label: nodeName },
+          data: { label: "" },
           type: "default",
         },
       ];
@@ -86,32 +85,11 @@ function App() {
         {
           id: String(Math.random()),
           position: { x: posX, y: posY },
-          data: { label: nodeName },
+          data: { label: "" },
           type: "input",
         },
       ];
     });
-  }
-
-  function changeNodeName() {
-    setNodes((nds) => {
-      const newNodes = nds.map((node) => {
-        if (node.selected) {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              label: nodeName,
-            },
-          };
-        }
-        return node;
-      });
-
-      return newNodes;
-    });
-
-    setNodeName("");
   }
 
   return (
@@ -126,29 +104,13 @@ function App() {
         style={{ backgroundColor: "#f8f0f0", display: "flex" }}
       >
         <Background color="#f1d2de" variant={BackgroundVariant.Cross} />
-        <Controls showZoom={false}>
+        <Controls showZoom={false}></Controls>
+
+        <Panel position="top-right">
           <ControlButton onClick={addCustomNode}>1</ControlButton>
           <ControlButton onClick={addDefaultNode}>2</ControlButton>
           <ControlButton onClick={addInputNode}>3</ControlButton>
-        </Controls>
-        <Panel position="top-right">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 6,
-            }}
-          >
-            <span>label:</span>
-            <input
-              type="text"
-              onChange={(e) => setNodeName(e.target.value)}
-              value={nodeName}
-            />
-            <button onClick={changeNodeName}>ok</button>
-          </div>
         </Panel>
-
         <Panel position="bottom-right">
           <BtnSendRequest onClick={() => sendConnectedEdges(nodes, edges)}>
             Отправить запрос

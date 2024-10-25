@@ -22,31 +22,29 @@ const ContentBox = styled.div`
 `;
 
 export default function Subprocess() {
-  const [inputText1, setInputText1] = useState("Initial text_1");
-  const [inputText2, setInputText2] = useState("Initial text_2");
-  const [inputText3, setInputText3] = useState("Initial text_3");
+
   return (
     <NodeBox>
      
       <ContentBox>
-        <label contentEditable suppressContentEditableWarning>
-          {inputText1}
+        <label contentEditable="true" >
+          inputText1
         </label>
-        <input onChange={(e) => setInputText1(e.target.value)} />
+        <input  />
       </ContentBox>
 
       <ContentBox>
-        <label contentEditable suppressContentEditableWarning>
-          {inputText2}
+        <label contentEditable="true" >
+          inputText2
         </label>
-        <input onChange={(e) => setInputText2(e.target.value)} />
+        <input  />
       </ContentBox>
 
       <ContentBox>
-        <label contentEditable suppressContentEditableWarning>
-          {inputText3}
+        <label contentEditable="true">
+          inputText3
         </label>
-        <input onChange={(e) => setInputText3(e.target.value)} />
+        <input  />
       </ContentBox>
 
       <Handle

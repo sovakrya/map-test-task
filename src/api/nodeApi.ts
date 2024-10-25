@@ -17,8 +17,13 @@ export async function sendConnectedEdges(nodes: Node[], edges: Edge[]) {
     }
   }
 
-  localStorage.setItem(
-    "res",
-    JSON.stringify({ edges: edges, nodes: nodesRes })
-  );
+  const resp = await fetch("/dfdfsfsffdf", {
+    method: "POST",
+    body: JSON.stringify({
+      nodes: nodesRes,
+      edges: edges,
+    }),
+  });
+
+  return resp.json();
 }

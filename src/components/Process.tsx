@@ -22,23 +22,16 @@ const ContentBox = styled.div`
 `;
 
 export default function Process() {
-  const [inputText1, setInputText1] = useState("Initial text_1");
-  const [inputText2, setInputText2] = useState("Initial text_2");
   return (
     <NodeBox>
-      
       <ContentBox>
-        <label contentEditable suppressContentEditableWarning>
-          {inputText1}
-        </label>
-        <input onChange={(e) => setInputText1(e.target.value)} />
+        <label contentEditable="true" style={{height: 40, width: 160}}>labelText1</label>
+        <input />
       </ContentBox>
 
       <ContentBox>
-        <label contentEditable suppressContentEditableWarning>
-          {inputText2}
-        </label>
-        <input onChange={(e) => setInputText2(e.target.value)} />
+        <label contentEditable="true" style={{height: 40, width: 160}}>labelText2</label>
+        <input />
       </ContentBox>
 
       <Handle

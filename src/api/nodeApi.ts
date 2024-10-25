@@ -2,12 +2,23 @@ import { Edge, getConnectedEdges, Node } from "@xyflow/react";
 
 export async function sendConnectedEdges(nodes: Node[], edges: Edge[]) {
   const connectedEdges = getConnectedEdges(nodes, edges);
-  const resp = await fetch("/fdgdfgdfgsdfsdf", {
-    method: "POST",
-    body: JSON.stringify({
-      connectedEdges,
-    }),
-  });
+  const nodesRes: Node[] = [];
 
-  return resp.json();
+  for (let i = 0; i < connectedEdges.length; i++) {
+    for (let j = 0; j < nodes.length; j++) {
+      if (
+        connectedEdges[i].target === nodes[j].id ||
+        connectedEdges[i].source === nodes[j].id
+      ) {
+        if (!nodesRes.includes(nodes[j])) {
+          nodesRes.push(nodes[j]);
+        }
+      }
+    }
+  }
+
+  localStorage.setItem(
+    "res",
+    JSON.stringify({ edges: edges, nodes: nodesRes })
+  );
 }

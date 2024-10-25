@@ -13,7 +13,7 @@ import {
   type Edge,
   type Node,
 } from "@xyflow/react";
-import { useCallback} from "react";
+import { useCallback } from "react";
 
 import "@xyflow/react/dist/style.css";
 import styled from "styled-components";
@@ -33,7 +33,7 @@ const BtnSendRequest = styled.button`
 
 const nodeTypes = {
   process: Process,
-  subprocess: Subprocess
+  subprocess: Subprocess,
 };
 let posY = 0;
 let posX = 0;
@@ -78,8 +78,6 @@ function App() {
       ];
     });
   }
-
-
 
   return (
     <MainBox>

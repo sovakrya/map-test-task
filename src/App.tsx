@@ -5,6 +5,7 @@ import {
   ControlButton,
   Controls,
   Panel,
+  Position,
   ReactFlow,
   addEdge,
   useEdgesState,
@@ -12,12 +13,14 @@ import {
   type Edge,
   type Node,
 } from "@xyflow/react";
-import { useCallback, useState } from "react";
+import { useCallback} from "react";
 
 import "@xyflow/react/dist/style.css";
 import styled from "styled-components";
-import CustomNode from "./components/Process";
+import Process from "./components/Process";
+
 import { sendConnectedEdges } from "./api/nodeApi";
+import Subprocess from "./components/Subprocess";
 
 const MainBox = styled.div`
   display: flex;
@@ -29,7 +32,8 @@ const BtnSendRequest = styled.button`
 `;
 
 const nodeTypes = {
-  editableNode: CustomNode,
+  process: Process,
+  subprocess: Subprocess
 };
 let posY = 0;
 let posX = 0;
@@ -42,8 +46,8 @@ function App() {
     [setEdges]
   );
 
-  function addCustomNode() {
-    posY += 100;
+  function addProcess() {
+    posY += 190;
     posX += 80;
     setNodes((nodes) => {
       return [
@@ -52,16 +56,16 @@ function App() {
           id: String(Math.random()),
           position: { x: posX, y: posY },
           data: { label: "" },
-          type: "editableNode",
+          type: "process",
+          targetPosition: Position.Bottom,
         },
       ];
     });
   }
 
-  function addDefaultNode() {
-    posY += 100;
+  function addSubprocess() {
+    posY += 190;
     posX += 80;
-
     setNodes((nodes) => {
       return [
         ...nodes,
@@ -69,28 +73,13 @@ function App() {
           id: String(Math.random()),
           position: { x: posX, y: posY },
           data: { label: "" },
-          type: "default",
+          type: "subprocess",
         },
       ];
     });
   }
 
-  function addInputNode() {
-    posY += 100;
-    posX += 80;
 
-    setNodes((nodes) => {
-      return [
-        ...nodes,
-        {
-          id: String(Math.random()),
-          position: { x: posX, y: posY },
-          data: { label: "" },
-          type: "input",
-        },
-      ];
-    });
-  }
 
   return (
     <MainBox>
@@ -107,9 +96,9 @@ function App() {
         <Controls showZoom={false}></Controls>
 
         <Panel position="top-right">
-          <ControlButton onClick={addCustomNode}>1</ControlButton>
-          <ControlButton onClick={addDefaultNode}>2</ControlButton>
-          <ControlButton onClick={addInputNode}>3</ControlButton>
+          <ControlButton onClick={addProcess}>1</ControlButton>
+          <ControlButton onClick={addSubprocess}>2</ControlButton>
+          <ControlButton onClick={addSubprocess}>3</ControlButton>
         </Panel>
         <Panel position="bottom-right">
           <BtnSendRequest onClick={() => sendConnectedEdges(nodes, edges)}>

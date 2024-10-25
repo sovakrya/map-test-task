@@ -7,7 +7,7 @@ const NodeBox = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 6px;
-  height: 150px;
+  height: 180px;
   width: 300px;
   align-items: center;
   background-color: #f1e2e2;
@@ -21,12 +21,13 @@ const ContentBox = styled.div`
   gap: 4px;
 `;
 
-export default function Process() {
+export default function Subprocess() {
   const [inputText1, setInputText1] = useState("Initial text_1");
   const [inputText2, setInputText2] = useState("Initial text_2");
+  const [inputText3, setInputText3] = useState("Initial text_3");
   return (
     <NodeBox>
-      
+     
       <ContentBox>
         <label contentEditable suppressContentEditableWarning>
           {inputText1}
@@ -41,9 +42,16 @@ export default function Process() {
         <input onChange={(e) => setInputText2(e.target.value)} />
       </ContentBox>
 
+      <ContentBox>
+        <label contentEditable suppressContentEditableWarning>
+          {inputText3}
+        </label>
+        <input onChange={(e) => setInputText3(e.target.value)} />
+      </ContentBox>
+
       <Handle
-        type="target"
-        position={Position.Bottom}
+        type="source"
+        position={Position.Top}
         style={{ width: 12, height: 12, backgroundColor: "#6d5b5b" }}
       />
     </NodeBox>
